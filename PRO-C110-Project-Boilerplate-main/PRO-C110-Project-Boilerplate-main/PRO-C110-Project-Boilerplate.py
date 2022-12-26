@@ -19,13 +19,18 @@ while True:
     status , frame = camera.read()
     if status:
         frame = cv2.flip(frame , 1)
+        resize_frame = cv2.resize(frame, (224,224))
         
-        test_image = np.array(frame, dtype = np.float32)
-        test_image = np.expand_dims(test_image, axis = 0)
-        Ni = test_image/255.0
-        prediction = model.predict(Ni)
-        print("prediction: ", prediction)
+        resize_frame = np.expand_dims(resize, axis = 0)
+        resize_frame = resize_frame/255.0
+        prediction = mymodel.predict(resize_frame)
         
+	rock = int(prediction[0][0]*100)
+	paper = int(prediction[0][1]*100)
+        scissor= int(prediction[0][2]*100)
+	
+	print(f"Rock : {rock} %, Paper : {paper} %, Scissor : {scissor} %") 
+	
         cv2.imshow('feed' , frame)
         code = cv2.waitKey(1)
         
